@@ -1,4 +1,14 @@
+import { useRef } from 'react';
+
 function CreateQuiz() {
+    const fileInputRef = useRef(null);
+
+    const handleUploadClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
     return (
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-12 pt-6">
 
@@ -26,10 +36,19 @@ function CreateQuiz() {
                 </h2>
 
                 {/* Upload Box */}
-                <div className="w-full h-[220px] bg-[#1e2333]/30 dark:bg-[#4b5563]/30 border-2 border-dashed border-gray-400 dark:border-gray-500 rounded-2xl flex items-center justify-center p-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#4b5563]/50 transition-colors mb-6 shadow-sm group">
+                <div
+                    onClick={handleUploadClick}
+                    className="w-full h-[220px] bg-[#1e2333]/30 dark:bg-[#4b5563]/30 border-2 border-dashed border-gray-400 dark:border-gray-500 rounded-2xl flex items-center justify-center p-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#4b5563]/50 transition-colors mb-6 shadow-sm group"
+                >
                     <p className="text-xl md:text-2xl font-semibold text-gray-600 dark:text-gray-200 text-center leading-relaxed">
                         Upload .csv file of for<br />larger amount of questions
                     </p>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        className="hidden"
+                        accept=".csv"
+                    />
                 </div>
 
                 {/* Create Quiz Button */}
