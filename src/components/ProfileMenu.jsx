@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
 function ProfileMenu() {
@@ -18,7 +19,7 @@ function ProfileMenu() {
       {/* Dropdown */}
       {open && (
         <div className="absolute right-0 mt-3 w-72 bg-white dark:bg-[#0b1220] rounded-xl shadow-xl z-50 overflow-hidden">
-          
+
           {/* User Info */}
           <div className="flex items-center gap-4 p-4 border-b border-gray-300 dark:border-white/10">
             <img
@@ -36,14 +37,20 @@ function ProfileMenu() {
           {/* Menu */}
           <ul className="p-2 space-y-0.5 text-sm">
 
-            <li className="flex gap-3 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer">
-              <div className="w-8 h-8 flex items-center justify-center bg-blue-500/20 rounded-md">
-                👤
-              </div>
-              <div>
-                <p className="font-medium leading-tight">My Profile</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Account settings</p>
-              </div>
+            <li>
+              <Link
+                to="/profile"
+                onClick={() => setOpen(false)}
+                className="flex gap-3 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer"
+              >
+                <div className="w-8 h-8 flex items-center justify-center bg-blue-500/20 rounded-md">
+                  👤
+                </div>
+                <div>
+                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">My Profile</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Account settings</p>
+                </div>
+              </Link>
             </li>
 
             <li className="flex gap-3 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer">
