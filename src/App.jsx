@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import ReportBug from "./pages/ReportBug";
 import News from "./pages/News";
 import CreateQuiz from "./pages/CreateQuiz";
+import MyQuizzes from "./pages/MyQuizzes";
 
 // Admin
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -45,6 +46,7 @@ function App() {
           <Route path="/report-bug" element={<ReportBug />} />
           <Route path="/news" element={<News />} />
           <Route path="/create" element={<CreateQuiz />} />
+          <Route path="/my-quizzes" element={<MyQuizzes />} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
