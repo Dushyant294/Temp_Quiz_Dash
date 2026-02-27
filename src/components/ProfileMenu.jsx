@@ -63,14 +63,20 @@ function ProfileMenu() {
               </div>
             </li>
 
-            <li className="flex gap-3 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer">
-              <div className="w-8 h-8 flex items-center justify-center bg-indigo-500/20 rounded-md">
-                📝
-              </div>
-              <div>
-                <p className="font-medium leading-tight">My Quizzes</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Your created quizzes</p>
-              </div>
+            <li>
+              <Link
+                to="/my-quizzes"
+                onClick={() => setOpen(false)}
+                className="flex gap-3 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer"
+              >
+                <div className="w-8 h-8 flex items-center justify-center bg-indigo-500/20 rounded-md">
+                  📝
+                </div>
+                <div>
+                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">My Quizzes</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Your created quizzes</p>
+                </div>
+              </Link>
             </li>
 
             {/* Dark Mode */}
