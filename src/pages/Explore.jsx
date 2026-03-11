@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import QuizCard from "../components/QuizCard";
 
 function Explore() {
     const categories = [
@@ -73,37 +74,16 @@ function Explore() {
                 {categories.map((cat, idx) => (
                     <div key={idx}>
                         <h2 className="text-xl font-bold mb-4 ml-1">{cat.title}</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             {cat.quizzes.map((quiz, qIdx) => (
-                                <div
+                                <QuizCard
                                     key={qIdx}
-                                    className={`border ${cat.border} ${cat.gradient} rounded-[14px] p-4 flex flex-col justify-between h-[150px] shadow-lg hover:-translate-y-1 hover:shadow-2xl transition-all duration-300`}
-                                >
-                                    <div className="flex gap-3">
-                                        <div className={`w-[26px] h-[26px] rounded flex items-center justify-center shrink-0 ${cat.iconBg} mt-0.5`}>
-                                            <span className="text-white text-[10px] font-mono leading-none">&lt;/&gt;</span>
-                                        </div>
-                                        <div>
-                                            <h3 className="text-[13px] font-bold text-white leading-snug mb-1">{quiz.title}</h3>
-                                            <div className="flex items-center gap-1 mb-0.5">
-                                                <span className="text-[9px] text-gray-300 font-medium">Stars :</span>
-                                                <div className="flex text-[#fbbf24] text-[9px] drop-shadow-md">
-                                                    ★★★★<span className="text-gray-500">★</span>
-                                                </div>
-                                            </div>
-                                            <p className="text-[9px] text-gray-400 font-medium">{quiz.questions} Questions</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-auto items-center flex justify-center w-full">
-                                        <Link
-                                            to="/play"
-                                            className="block w-full text-center border border-gray-400 text-gray-300 rounded-full py-1 text-[10px] font-semibold hover:bg-white/10 transition-colors"
-                                        >
-                                            {quiz.button}
-                                        </Link>
-                                    </div>
-                                </div>
+                                    title={quiz.title}
+                                    category={cat.title}
+                                    stars={quiz.stars}
+                                    questionsCount={quiz.questions}
+                                    buttonText={quiz.button}
+                                />
                             ))}
                         </div>
                     </div>
