@@ -21,11 +21,13 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 
-// Routes (Placeholders for now, will create later)
+// Routes
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 // Apply Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'API and Database are connected!' });
