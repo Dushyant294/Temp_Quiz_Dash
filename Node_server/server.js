@@ -22,6 +22,11 @@ app.use(cors());
 app.use(express.json());
 
 // Routes (Placeholders for now, will create later)
+const authRoutes = require('./routes/authRoutes');
+
+// Apply Routes
+app.use('/api/auth', authRoutes);
+
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'API and Database are connected!' });
 });
@@ -29,7 +34,7 @@ app.get('/api/health', (req, res) => {
 // Socket.io connection placeholder
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
-  
+
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });
