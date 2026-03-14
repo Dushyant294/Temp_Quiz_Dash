@@ -37,7 +37,8 @@ Node_server/
 │   ├── leaderboardRoutes.js         # GET leaderboard data
 │   ├── bugReportRoutes.js           # POST bug report, GET reports
 │   ├── newsRoutes.js                # GET news/updates
-│   └── adminRoutes.js               # Admin: users, content, tournaments, reports
+│   ├── adminRoutes.js               # Admin: users, content, tournaments, reports
+│   └── uploadRoutes.js              # CSV file upload and processing endpoints
 │
 ├── controllers/
 │   ├── authController.js            # Login, register, token refresh logic
@@ -51,7 +52,14 @@ Node_server/
 │   ├── leaderboardController.js     # Leaderboard computation & ranking
 │   ├── bugReportController.js       # Bug report submission & management
 │   ├── newsController.js            # News CRUD
-│   └── adminController.js           # User management, content moderation
+│   ├── adminController.js           # User management, content moderation
+│   └── uploadController.js          # Main controller handling CSV requests/responses
+│
+├── handlers/
+│   └── csvHandler.js                # Coordinates CSV parsing, validation, and DB batch insertion
+│
+├── services/
+│   └── csvParserService.js          # Parses CSV, translates to JSON, validates column constraints
 │
 ├── models/
 │   ├── userModel.js                 # DB queries for users table
@@ -132,6 +140,7 @@ Each route file defines the URL endpoints and maps them to controller functions.
 | **`bugReportRoutes.js`** | `POST /api/bug-reports`, `GET /api/bug-reports/my` | Yes |
 | **`newsRoutes.js`** | `GET /api/news` | No |
 | **`adminRoutes.js`** | `GET/PUT/DELETE /api/admin/users`, `GET/PUT/DELETE /api/admin/content`, `POST/PUT/DELETE /api/admin/tournaments`, `GET/PUT /api/admin/reports`, `POST /api/admin/news` | Yes (Admin) |
+| **`uploadRoutes.js`** | `POST /api/upload/csv` | Yes (Instructor/Admin) |
 
 ---
 
@@ -153,6 +162,23 @@ Each controller contains the business logic for its domain. Controllers receive 
 | **`bugReportController.js`** | `create()` — submits bug report. `getMyReports()` — user's own reports. |
 | **`newsController.js`** | `getAll()` — returns news with optional tag filter. |
 | **`adminController.js`** | `listUsers()` — paginated user list. `updateUserRole()` — upgrade/downgrade. `toggleUserActive()` — activate/deactivate. `changeUserPassword()`. `listQuizzes()`, `deleteQuiz()`, `getQuizQuestions()`, `deleteQuestion()`. `createTournament()`, `endTournament()`, `updateTournament()`. `listBugReports()`, `resolveReport()`. `createNewsUpdate()`. |
+| **`uploadController.js`** | `uploadCSV()` — accepts file from multer, passes to `csvHandler`, sends back success/error. |
+
+---
+
+### `handlers/`
+
+| File | Purpose |
+|---|---|
+| **`csvHandler.js`** | Coordinates the entire pipeline for bulk CSV uploads. Takes the raw file path, calls `csvParserService` to get validated JSON, filters out bad data, and acts as the transaction manager to insert records across the database efficiently using bulk queries. Returns detailed summaries of the operation back to the controller. |
+
+---
+
+### `services/`
+
+| File | Purpose |
+|---|---|
+| **`csvParserService.js`** | Contains core business logic for reading large CSV files efficiently via streams. Wraps `csv-parse`, translates header names to standard schemas, maps text formats to JSON arrays, runs row-level structural validation, and provides explicit error mappings for rows that fail parsing. |
 
 ---
 

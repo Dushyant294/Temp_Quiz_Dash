@@ -229,6 +229,7 @@ CREATE INDEX idx_questions_category ON questions(category_id);
 CREATE INDEX idx_questions_subject ON questions(subject_id);
 CREATE INDEX idx_questions_difficulty ON questions(difficulty_label);
 CREATE INDEX idx_questions_created_by ON questions(created_by);
+CREATE INDEX idx_questions_file_id ON questions(file_id); -- Optimized for bulk CSV operations
 ```
 
 > **Frontend references**: `QuizPlayView.jsx` (question text, 4 options A-D, image), `ManageContent.jsx` (question text, options A-D, correct answer, hint), `Explore.jsx` (questions count per quiz), `QuizBattle.jsx` (difficulty, topic, micro-topic selectors).
@@ -561,6 +562,7 @@ After cross-checking the ER diagram with the frontend pages, the following **gap
 |---|---|
 | **Normalized category hierarchy** | Instead of flat text columns for exam/subject/topic/micro-topic, we use proper FK relationships (`categories` → `subjects` → `topics` → `micro_topics`) for consistency and querying. |
 | **Password hashing** | Changed `password` to `password_hash` to reflect that plain-text passwords should never be stored. |
+| **Bulk CSV Insertion Support** | Added `idx_questions_file_id` index on `questions(file_id)`. When a CSV is parsed and inserted via bulk operations, all rows link to a parent `question_files` record. This index ensures that searching, updating, or rolling back a bulk-uploaded batch is extremely fast and efficient, meeting the heavy processing requirements of large CSVs. |
 | **Separate quiz attempts from sessions** | A quiz session tracks the game (1v1/solo), while quiz attempts track individual user completions — needed because `MyQuizzes.jsx` shows user-specific results. |
 | **Soft delete for users** | Added `is_active` flag instead of hard-deleting users (admin can deactivate). |
 | **Timestamps everywhere** | Added `created_at` / `updated_at` on all relevant tables for audit trails. |
