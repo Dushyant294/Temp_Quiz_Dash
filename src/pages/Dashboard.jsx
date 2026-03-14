@@ -1,6 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Dashboard() {
+    const [stats, setStats] = useState({
+        total_quizzes_taken: 0,
+        total_score_earned: 0,
+        highest_score: 0,
+        completed_quizzes: 0
+    });
+    const [user, setUser] = useState({ full_name: 'Guest' });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setUser(parsedUser);
+
+            const fetchDashboardData = async () => {
+                try {
+                    const response = await fetch(`http://localhost:5000/api/users/dashboard/${parsedUser.user_id}`);
+                    const data = await response.json();
+                    if (data.success) {
+                        setStats(data.data);
+                    }
+                } catch (err) {
+                    console.error("Failed to fetch dashboard data", err);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchDashboardData();
+        } else {
+            setLoading(false);
+        }
+    }, []);
     // Donut chart data — order matches clockwise from top in the design
     const chartSegments = [
         { name: 'Physics', quizzes: 45, color: '#22c55e', percent: 18 },
@@ -46,18 +79,18 @@ function Dashboard() {
             <div className="w-full bg-gradient-to-r from-[#4f46e5] via-[#1e1b4b] to-[#0a0e18] rounded-2xl p-8 md:p-10 mb-8 shadow-2xl relative overflow-hidden border border-white/5">
                 <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-[#4f46e5]/15 blur-[100px] rounded-full pointer-events-none"></div>
 
-                <h1 className="text-3xl md:text-4xl font-bold text-white mb-1 relative z-10">Welcome Back ,</h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-white mb-1 relative z-10">Welcome Back, {user.full_name}</h1>
                 <p className="text-gray-300 text-sm mb-6 relative z-10">Here is your report card</p>
 
                 <div className="flex flex-wrap gap-3 relative z-10">
                     <span className="border border-white/40 bg-white/5 rounded-lg px-4 py-1.5 text-sm font-semibold backdrop-blur-sm">
-                        Total Quizzes : 253
+                        Total Quizzes : {stats.total_quizzes_taken}
                     </span>
                     <span className="border border-white/40 bg-white/5 rounded-lg px-4 py-1.5 text-sm font-semibold backdrop-blur-sm">
                         Global Rank : #14
                     </span>
                     <span className="border border-white/40 bg-white/5 rounded-lg px-4 py-1.5 text-sm font-semibold backdrop-blur-sm">
-                        Current Points : 15,320
+                        Current Points : {stats.total_score_earned}
                     </span>
                 </div>
             </div>

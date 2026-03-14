@@ -1,10 +1,22 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
 function ProfileMenu() {
   const [open, setOpen] = useState(false);
   const { dark, setDark } = useTheme();
+  const navigate = useNavigate();
+
+  // Read logged-in user from localStorage
+  const storedUser = localStorage.getItem('user');
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setOpen(false);
+    navigate('/login');
+  };
 
   return (
     <div className="relative">
@@ -28,9 +40,9 @@ function ProfileMenu() {
               className="w-12 h-12 rounded-full"
             />
             <div>
-              <h3 className="font-semibold text-base">Jonathan Doe</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400">@johndoe</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">info@quizhub.com</p>
+              <h3 className="font-semibold text-base">{user?.full_name || 'Guest'}</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400">@{user?.username || 'unknown'}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email || ''}</p>
             </div>
           </div>
 
@@ -112,7 +124,10 @@ function ProfileMenu() {
 
           {/* Logout */}
           <div className="p-3 border-t border-gray-300 dark:border-white/10">
-            <button className="w-full bg-red-800 hover:bg-red-700 py-2.5 rounded-lg font-medium">
+            <button 
+              onClick={handleLogout}
+              className="w-full bg-red-800 hover:bg-red-700 py-2.5 rounded-lg font-medium text-white"
+            >
               ⎋ Log out
             </button>
           </div>
