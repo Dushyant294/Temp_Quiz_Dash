@@ -7,7 +7,7 @@ const { success, error } = require('../utils/apiResponse');
 exports.getUserProfile = async (req, res) => {
   try {
     const userId = req.params.id;
-    
+
     // Fetch basic user data
     const userResult = await db.query(
       'SELECT user_id, full_name, email, username, role, bio, profile_image_url, created_at, total_points, rank_tier FROM users WHERE user_id = $1',
@@ -77,10 +77,10 @@ exports.getUserStats = async (req, res) => {
     `, [userId]);
 
     const stats = battlesResult.rows[0];
-    
+
     // Calculate win rate
-    stats.win_rate = stats.total_battles > 0 
-      ? Math.round((stats.wins / stats.total_battles) * 100) 
+    stats.win_rate = stats.total_battles > 0
+      ? Math.round((stats.wins / stats.total_battles) * 100)
       : 0;
 
     return success(res, stats, 'User stats fetched successfully');
