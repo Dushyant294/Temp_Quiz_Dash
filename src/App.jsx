@@ -25,15 +25,6 @@ import BugReports from "./pages/admin/BugReports";
 import ManageTournaments from "./pages/admin/ManageTournaments";
 import CreateTournament from "./pages/admin/CreateTournament";
 
-// Auth guard: redirects to /login if user is not logged in
-function ProtectedRoute({ children }) {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-  return children;
-}
-
 function App() {
   return (
     <HashRouter>
@@ -44,8 +35,8 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Route>
 
-        {/* Main App Routes — Protected */}
-        <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+        {/* Main App Routes */}
+        <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/explore" element={<Explore />} />
@@ -68,11 +59,11 @@ function App() {
           <Route path="/admin/create-tournament" element={<CreateTournament />} />
         </Route>
 
-        {/* Play Quiz Route — Protected */}
-        <Route path="/play" element={<ProtectedRoute><QuizPlayView /></ProtectedRoute>} />
+        {/* Play Quiz Route */}
+        <Route path="/play" element={<QuizPlayView />} />
 
-        {/* Fallback — send to login */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>
   );

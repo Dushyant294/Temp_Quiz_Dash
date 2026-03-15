@@ -57,10 +57,10 @@ function Profile() {
                 <div className="absolute top-0 right-0 w-[60%] h-full bg-[#4F46E5]/10 blur-[120px] rounded-full pointer-events-none"></div>
 
                 {/* Avatar */}
-                <div className="w-24 h-24 bg-[#5b5bff] rounded-full flex items-center justify-center shrink-0 border-2 border-white/10 shadow-lg relative z-10">
-                    <span className="text-white font-bold text-4xl select-none">
-                        {user.full_name?.charAt(0)?.toUpperCase() || '?'}
-                    </span>
+                <div className="w-24 h-24 bg-gray-200 dark:bg-gray-300 rounded-full flex flex-col items-center justify-end overflow-hidden shrink-0 border-2 border-white/10 shadow-lg relative z-10">
+                    <svg className="w-20 h-20 text-gray-400 translate-y-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                    </svg>
                 </div>
 
                 {/* User Info */}

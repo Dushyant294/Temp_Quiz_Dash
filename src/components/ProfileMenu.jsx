@@ -20,13 +20,13 @@ function ProfileMenu() {
 
   return (
     <div className="relative">
-      {/* Profile Avatar - Initial Letter */}
-      <div
-        className="w-10 h-10 rounded-full cursor-pointer bg-[#5b5bff] flex items-center justify-center text-white font-bold text-lg select-none"
+      {/* Profile Avatar */}
+      <img
+        src="https://i.pravatar.cc/40"
+        alt="profile"
+        className="w-10 h-10 rounded-full cursor-pointer"
         onClick={() => setOpen(!open)}
-      >
-        {user?.full_name?.charAt(0)?.toUpperCase() || '?'}
-      </div>
+      />
 
       {/* Dropdown */}
       {open && (
@@ -34,9 +34,11 @@ function ProfileMenu() {
 
           {/* User Info */}
           <div className="flex items-center gap-4 p-4 border-b border-gray-300 dark:border-white/10">
-            <div className="w-12 h-12 rounded-full bg-[#5b5bff] flex items-center justify-center text-white font-bold text-xl shrink-0 select-none">
-              {user?.full_name?.charAt(0)?.toUpperCase() || '?'}
-            </div>
+            <img
+              src="https://i.pravatar.cc/56"
+              alt="user"
+              className="w-12 h-12 rounded-full"
+            />
             <div>
               <h3 className="font-semibold text-base">{user?.full_name || 'Guest'}</h3>
               <p className="text-xs text-gray-500 dark:text-gray-400">@{user?.username || 'unknown'}</p>
@@ -79,7 +81,8 @@ function ProfileMenu() {
               </Link>
             </li>
 
-            {/* My Quizzes - visible for all users */}
+            {/* My Quizzes - only for instructors and admins */}
+            {(user?.role === 'instructor' || user?.role === 'admin') && (
             <li>
               <Link
                 to="/my-quizzes"
@@ -91,10 +94,11 @@ function ProfileMenu() {
                 </div>
                 <div>
                   <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">My Quizzes</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Your quizzes</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Your created quizzes</p>
                 </div>
               </Link>
             </li>
+            )}
 
             {/* Admin Panel - only for admins */}
             {user?.role === 'admin' && (
