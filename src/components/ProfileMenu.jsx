@@ -81,6 +81,8 @@ function ProfileMenu() {
               </Link>
             </li>
 
+            {/* My Quizzes - only for instructors and admins */}
+            {(user?.role === 'instructor' || user?.role === 'admin') && (
             <li>
               <Link
                 to="/my-quizzes"
@@ -96,6 +98,26 @@ function ProfileMenu() {
                 </div>
               </Link>
             </li>
+            )}
+
+            {/* Admin Panel - only for admins */}
+            {user?.role === 'admin' && (
+            <li>
+              <Link
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className="flex gap-3 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer"
+              >
+                <div className="w-8 h-8 flex items-center justify-center bg-red-500/20 rounded-md">
+                  ⚙️
+                </div>
+                <div>
+                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">Admin Panel</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Manage platform</p>
+                </div>
+              </Link>
+            </li>
+            )}
 
             {/* Dark Mode */}
             <li className="flex items-center justify-between p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10">
